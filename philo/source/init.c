@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philo.h"
+#include "../philo.h"
 
 int	init_forks(t_context *context)
 {

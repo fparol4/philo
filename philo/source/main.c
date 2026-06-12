@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philo.h"
+#include "../philo.h"
 
 static int	main_args(int argc, char **argv, t_context *context)
 {

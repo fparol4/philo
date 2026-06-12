@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philo.h"
+#include "../philo.h"
 
 void	*philo_alone(t_philo *philo)
 {

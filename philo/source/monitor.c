@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philo.h"
+#include "../philo.h"
 
 int	monitor_satisfied(t_context *context)
 {

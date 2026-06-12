@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/philo.h"
+#include "../philo.h"
 
 int	simulation_over(t_context *context)
 {
