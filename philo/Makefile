@@ -1,17 +1,27 @@
-NAME = minishell
+NAME = philo
 
 CC = cc
 CFLAGS = -g3 -Wall -Wextra -Werror
-INCLUDES = -I. -Iheaders -Ilibraries -Ilibraries/libft
+INCLUDES = -Iheaders
 
-SRCS = source/main.c
+SRCS = source/action.c \
+	source/context.c \
+	source/init.c \
+	source/main.c \
+	source/monitor.c \
+	source/philo.c \
+	source/philo_action.c \
+	source/simulation.c \
+	source/time.c \
+	source/util.c
+
 OBJ_DIR = build
 OBJS = $(SRCS:source/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -pthread -o $(NAME)
 
 $(OBJ_DIR)/%.o: source/%.c
 	@mkdir -p $(dir $@)

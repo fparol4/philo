@@ -2,12 +2,18 @@
 
 int context_clear(t_context *context)
 {
-	int i;
+	int	i;
 
+	if (!context)
+		return (1);
 	i = 0;
-	while (i < context->n_philos)
+	while (i < context->philos_ready)
+		pthread_mutex_destroy(&context->philos[i++].mtx_state);
+	i = 0;
+	while (i < context->forks_ready)
 		pthread_mutex_destroy(&context->forks[i++]);
-	pthread_mutex_destroy(&context->mtx_action);
+	if (context->action_ready)
+		pthread_mutex_destroy(&context->mtx_action);
 	free(context->forks);
 	free(context->philos);
 	return (0);

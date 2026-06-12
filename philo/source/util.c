@@ -4,6 +4,8 @@ int	util_digit(char *v)
 {
 	int i;
 
+	if (!v[0])
+		return (0);
 	i = 0;
 	while (v[i])
 	{
@@ -16,29 +18,21 @@ int	util_digit(char *v)
 
 int	util_atoi(char *v)
 {
-	int	i;
-	int	signal;
-	int	result;
+	int		i;
+	long	result;
 
-	i = 0;
-	signal = 1;
-	result = 0;
 	if (!util_digit(v))
 		return (-1);
-	while ((v[i] >= 9 && v[i] <= 13) || v[i] == 32)
-		i++;
-	if (v[i] == '+' || v[i] == '-')
-	{
-		if (v[i] == '-')
-			signal = -1;
-		i++;
-	}
+	i = 0;
+	result = 0;
 	while (v[i] >= '0' && v[i] <= '9')
 	{
 		result = result * 10 + (v[i] - '0');
+		if (result > INT_MAX)
+			return (-1);
 		i++;
 	}
-	return ((int)result * signal);
+	return ((int)result);
 }
 
 int util_check_props(t_context *context)
@@ -58,15 +52,6 @@ int util_check_props(t_context *context)
 
 int util_args(char **argv, t_context *context)
 {
-	int i;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (!util_digit(argv[i]))
-			return (-1);
-		i++;
-	}
 	context->n_philos = util_atoi(argv[1]);
 	context->t_die = util_atoi(argv[2]);
 	context->t_eat = util_atoi(argv[3]);
