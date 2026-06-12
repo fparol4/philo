@@ -366,14 +366,192 @@ Temporarily, yes. A blocking mutex wait cannot be interrupted by
 `simulation_over`. The implementation still releases forks and joins because
 other running philosophers detect the stop condition during `time_sleep()`.
 
+## Evaluation Test Plan
+
+Run tests from the project root after rebuilding:
+
+```sh
+make re
+```
+
+If `timeout` is used, exit status `124` means the program was still running
+when `timeout` stopped it. That is expected for no-death tests without
+`must_eat`.
+
+### Build And Norm
+
+```sh
+make re
+norminette .
+```
+
+Expected:
+
+- `make re` succeeds with `-Wall -Wextra -Werror`;
+- `norminette .` reports `OK` for every source/header file.
+
+### Invalid Argument Tests
+
+```sh
+./philo
+./philo 0 800 200 200
+./philo 5 0 200 200
+./philo 5 800 0 200
+./philo 5 800 200 0
+./philo 5 800 200 200 0
+./philo 5 abc 200 200
+./philo 5 800 200 200 extra extra
+```
+
+Expected:
+
+- program prints an error;
+- program exits with status `1`;
+- no crash, no hang.
+
+These tests verify argument count, digit-only parsing, and rejection of zero
+values.
+
+### Single Philosopher
+
+```sh
+./philo 1 800 200 200
+```
+
+Expected:
+
+- philosopher takes one fork;
+- philosopher never eats;
+- one death is printed around `800ms`.
+
+This is an official evaluator case.
+
+### Two Philosopher Death Timing
+
+```sh
+./philo 2 60 200 200
+./philo 2 100 200 200
+./philo 2 200 300 100
+```
+
+Expected:
+
+- exactly one death;
+- death is not delayed by more than about `10ms`;
+- no action lines appear after the death line.
+
+The sheet specifically asks to test two philosophers with different timings.
+
+### No-Death Official Cases
+
+```sh
+timeout 3 ./philo 5 800 200 200
+timeout 3 ./philo 4 410 200 200
+```
+
+Expected:
+
+- no `died` line;
+- command exits with status `124` because `timeout` stops it;
+- output remains ordered and readable.
+
+These are official evaluator cases.
+
+### Expected Death Official Case
+
+```sh
+./philo 4 310 200 100
+```
+
+Expected:
+
+- exactly one philosopher dies;
+- death happens around `310ms`;
+- no normal action is printed after death.
+
+This is an official evaluator case.
+
+### Must-Eat Official Case
+
+```sh
+./philo 5 800 200 200 7
+```
+
+Expected:
+
+- no philosopher dies;
+- simulation stops by itself;
+- no success message is required;
+- every philosopher has eaten at least seven times.
+
+This is an official evaluator case.
+
+### Extra Must-Eat Regression Cases
+
+```sh
+./philo 5 610 200 200 7
+./philo 3 610 200 200 7
+./philo 7 800 200 200 3
+```
+
+Expected:
+
+- no death;
+- natural termination;
+- verifies odd philosopher counts and the thinking delay.
+
+### Large But Allowed Count
+
+```sh
+timeout 3 ./philo 200 800 200 200
+```
+
+Expected:
+
+- no death during the short timeout;
+- output remains synchronized;
+- no crash.
+
+The sheet says not to test with more than 200 philosophers, so 200 is the upper
+boundary worth checking.
+
+### Leak Check
+
+```sh
+valgrind --leak-check=full --show-leak-kinds=all ./philo 5 800 200 200 2
+```
+
+Expected:
+
+- all heap blocks are freed;
+- no Valgrind errors.
+
+Use a `must_eat` case so the program exits naturally.
+
+### Race Check
+
+```sh
+valgrind --tool=helgrind ./philo 5 800 200 200 2
+```
+
+Expected:
+
+- Helgrind reports no data race errors.
+
+The evaluation sheet explicitly allows tools such as Helgrind or DRD to verify
+the absence of data races.
+
 ## Verified Evaluation-Style Cases
 
 The current behavior was checked with:
 
 ```sh
 make re
-./philo 1 200 100 100
+norminette .
+./philo 1 800 200 200
+./philo 2 60 200 200
 ./philo 2 100 200 200
+./philo 2 200 300 100
 ./philo 4 310 200 100
 timeout 3 ./philo 4 410 200 200
 timeout 3 ./philo 5 800 200 200
@@ -383,19 +561,17 @@ timeout 3 ./philo 200 800 200 200
 ./philo 5 610 200 200 7
 ./philo 3 610 200 200 7
 ./philo 7 800 200 200 3
+valgrind --leak-check=full --show-leak-kinds=all ./philo 5 800 200 200 2
+valgrind --tool=helgrind ./philo 5 800 200 200 2
 ```
 
-Expected results:
+Expected and observed results:
 
 - build succeeds with `-Wall -Wextra -Werror`;
+- Norm passes;
 - death cases print exactly one `died` line;
 - no-death timeout cases keep running until killed by `timeout`;
 - must-eat cases terminate without death;
-- invalid arguments print an error and return status `1`.
-
-## Remaining Non-Logic Concern
-
-The program behavior matches the checked evaluator-style cases, but Norm/style
-cleanup may still be required depending on the evaluation rules. Current style
-issues include missing 42 headers and formatting/alignment complaints reported
-by `norminette`.
+- invalid arguments print an error and return status `1`;
+- Memcheck reports no leaks;
+- Helgrind reports no data race errors.

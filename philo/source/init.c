@@ -51,12 +51,13 @@ int	init_philos(t_context *context)
 	int	i;
 
 	i = 0;
-	context->philos = calloc(context->n_philos, sizeof(t_philo));
+	context->philos = malloc(context->n_philos * sizeof(t_philo));
 	if (!context->philos)
 		return (1);
 	while (i < context->n_philos)
 	{
 		context->philos[i].id = i + 1;
+		context->philos[i].eaten = 0;
 		context->philos[i].last_meal = context->t_start;
 		context->philos[i].context = context;
 		init_philo_fork(context, i);
