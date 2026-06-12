@@ -9,9 +9,9 @@ void *philo_alone(t_philo *philo)
 	return (NULL);
 }
 
-int philo_lastmeal(t_philo *philo)
+long philo_lastmeal(t_philo *philo)
 {
-	int	last_meal;
+	long	last_meal;
 
 	pthread_mutex_lock(&philo->mtx_state);
 	last_meal = philo->last_meal;

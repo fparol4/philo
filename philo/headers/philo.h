@@ -20,7 +20,7 @@ typedef struct s_context
 	int				t_die;
 	int				t_eat;
 	int				t_sleep;
-	int				t_start;
+	long			t_start;
 	struct s_philo	*philos;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	mtx_action;
@@ -30,7 +30,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				eaten;
-	int				last_meal;
+	long			last_meal;
 	pthread_t		thread;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -44,8 +44,8 @@ int	util_atoi(char *v);
 int util_check_props(t_context *context);
 int util_args(char **argv, t_context *context);
 
-int		time_now(void);
-int		time_lapsed(int timestamp);
+long	time_now(void);
+long	time_lapsed(long timestamp);
 void	time_sleep(t_philo *philo, int ms);
 
 int context_clear(t_context *context);
@@ -64,7 +64,7 @@ int		philo_action_think(t_philo *philo);
 int		print_action(t_philo *philo, char *msg);
 int		action_death(t_context *context, int philo_id);
 int		action_alleat(t_context *context);
-int		philo_lastmeal(t_philo *philo);
+long	philo_lastmeal(t_philo *philo);
 int		monitor_satisfied(t_context *context);
 
 int monitor_start(t_context *context);

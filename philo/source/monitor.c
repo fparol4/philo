@@ -24,7 +24,7 @@ int monitor_satisfied(t_context *context)
 int monitor_start(t_context *context)
 {
 	int	i;
-	int	t_lmeal;
+	long	t_lmeal;
 
 	while (!simulation_over(context))
 	{
@@ -32,7 +32,7 @@ int monitor_start(t_context *context)
 		while (i < context->n_philos)
 		{
 			t_lmeal = philo_lastmeal(&context->philos[i]);
-			if (time_lapsed(t_lmeal) > context->t_die)
+			if (time_lapsed(t_lmeal) >= context->t_die)
 				return (action_death(context, context->philos[i].id));
 			i++;
 		}

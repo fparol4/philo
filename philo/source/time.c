@@ -1,22 +1,22 @@
 #include "../headers/philo.h"
 
-int time_now(void)
+long time_now(void)
 {
 	struct timeval time;
 
 	gettimeofday(&time, NULL);
-	return ((int)(time.tv_sec * 1000L + (time.tv_usec / 1000)));
+	return (time.tv_sec * 1000L + (time.tv_usec / 1000));
 }
 
-int time_lapsed(int timestamp)
+long time_lapsed(long timestamp)
 {
 	return (time_now() - timestamp);
 }
 
 void time_sleep(t_philo *philo, int ms)
 {
-	int	start;
-	int	now;
+	long	start;
+	long	now;
 
 	start = time_now();
 	while ((now = time_now()) - start < ms)

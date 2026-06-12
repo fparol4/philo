@@ -28,7 +28,7 @@ int philo_action_forks(t_philo *philo)
 
 int philo_action_eat(t_philo *philo)
 {
-	if (print_action(philo, "is eating"))
+	if (simulation_over(philo->context))
 	{
 		s_unlock_forks(philo);
 		return (1);
@@ -37,6 +37,11 @@ int philo_action_eat(t_philo *philo)
 	philo->last_meal = time_now();
 	philo->eaten++;
 	pthread_mutex_unlock(&philo->mtx_state);
+	if (print_action(philo, "is eating"))
+	{
+		s_unlock_forks(philo);
+		return (1);
+	}
 	time_sleep(philo, philo->context->t_eat);
 	s_unlock_forks(philo);
 	return (simulation_over(philo->context));
@@ -52,5 +57,9 @@ int philo_action_sleep(t_philo *philo)
 
 int philo_action_think(t_philo *philo)
 {
-	return (print_action(philo, "is thinking"));
+	if (print_action(philo, "is thinking"))
+		return (1);
+	if (philo->context->n_philos % 2 != 0)
+		time_sleep(philo, philo->context->t_eat / 2);
+	return (simulation_over(philo->context));
 }
