@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:02 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:02 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-int monitor_satisfied(t_context *context)
+int	monitor_satisfied(t_context *context)
 {
 	int	i;
 
@@ -21,9 +33,9 @@ int monitor_satisfied(t_context *context)
 	return (1);
 }
 
-int monitor_start(t_context *context)
+int	monitor_start(t_context *context)
 {
-	int	i;
+	int		i;
 	long	t_lmeal;
 
 	while (!simulation_over(context))

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:03 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:03 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-void *philo_alone(t_philo *philo)
+void	*philo_alone(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
 	print_action(philo, "has taken a fork");
@@ -9,7 +21,7 @@ void *philo_alone(t_philo *philo)
 	return (NULL);
 }
 
-long philo_lastmeal(t_philo *philo)
+long	philo_lastmeal(t_philo *philo)
 {
 	long	last_meal;
 
@@ -19,11 +31,11 @@ long philo_lastmeal(t_philo *philo)
 	return (last_meal);
 }
 
-void *philo_routine(void *philo_ctx)
+void	*philo_routine(void *philo_ctx)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
-	philo = ((t_philo *) philo_ctx);
+	philo = ((t_philo *)philo_ctx);
 	if (philo->context->n_philos == 1)
 		return (philo_alone(philo));
 	if (philo->id % 2 == 0)

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:02 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:02 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-int init_forks(t_context *context)
+int	init_forks(t_context *context)
 {
 	int	i;
 
@@ -18,7 +30,23 @@ int init_forks(t_context *context)
 	return (0);
 }
 
-int init_philos(t_context *context)
+static void	init_philo_fork(t_context *context, int i)
+{
+	if ((i + 1) % 2 == 0)
+	{
+		context->philos[i].l_fork = &context->forks[(i + 1)
+			% context->n_philos];
+		context->philos[i].r_fork = &context->forks[i];
+	}
+	else
+	{
+		context->philos[i].l_fork = &context->forks[i];
+		context->philos[i].r_fork = &context->forks[(i + 1)
+			% context->n_philos];
+	}
+}
+
+int	init_philos(t_context *context)
 {
 	int	i;
 
@@ -28,28 +56,19 @@ int init_philos(t_context *context)
 		return (1);
 	while (i < context->n_philos)
 	{
-		context->philos[i].id = i + 1;
-		context->philos[i].last_meal = context->t_start;
-		context->philos[i].context = context;
-		if ((i + 1) % 2 == 0)
-		{
-			context->philos[i].l_fork = &context->forks[(i + 1) % context->n_philos];
-			context->philos[i].r_fork = &context->forks[i];
-		}
-		else
-		{
-			context->philos[i].l_fork = &context->forks[i];
-			context->philos[i].r_fork = &context->forks[(i + 1) % context->n_philos];
-		}
-		if (pthread_mutex_init(&context->philos[i].mtx_state, NULL) != 0)
-			return (1);
-		context->philos_ready++;
+			context->philos[i].id = i + 1;
+			context->philos[i].last_meal = context->t_start;
+			context->philos[i].context = context;
+			init_philo_fork(context, i);
+			if (pthread_mutex_init(&context->philos[i].mtx_state, NULL) != 0)
+				return (1);
+			context->philos_ready++;
 		i++;
 	}
 	return (0);
 }
 
-int init_table(t_context *context)
+int	init_table(t_context *context)
 {
 	if (pthread_mutex_init(&context->mtx_action, NULL) != 0)
 		return (1);

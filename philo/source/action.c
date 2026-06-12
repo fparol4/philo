@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:03 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:03 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-int print_action(t_philo *philo, char *msg)
+int	print_action(t_philo *philo, char *msg)
 {
 	long	timestamp;
 
@@ -16,7 +28,7 @@ int print_action(t_philo *philo, char *msg)
 	return (0);
 }
 
-int action_death(t_context *context, int philo_id)
+int	action_death(t_context *context, int philo_id)
 {
 	long	timestamp;
 
@@ -33,7 +45,7 @@ int action_death(t_context *context, int philo_id)
 	return (1);
 }
 
-int action_alleat(t_context *context)
+int	action_alleat(t_context *context)
 {
 	pthread_mutex_lock(&context->mtx_action);
 	context->simulation_over = 1;

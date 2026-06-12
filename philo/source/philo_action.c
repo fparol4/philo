@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_action.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:03 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:03 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
 static void	s_unlock_forks(t_philo *philo)
@@ -6,7 +18,7 @@ static void	s_unlock_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->l_fork);
 }
 
-int philo_action_forks(t_philo *philo)
+int	philo_action_forks(t_philo *philo)
 {
 	if (simulation_over(philo->context))
 		return (1);
@@ -26,7 +38,7 @@ int philo_action_forks(t_philo *philo)
 	return (0);
 }
 
-int philo_action_eat(t_philo *philo)
+int	philo_action_eat(t_philo *philo)
 {
 	if (simulation_over(philo->context))
 	{
@@ -47,7 +59,7 @@ int philo_action_eat(t_philo *philo)
 	return (simulation_over(philo->context));
 }
 
-int philo_action_sleep(t_philo *philo)
+int	philo_action_sleep(t_philo *philo)
 {
 	if (print_action(philo, "is sleeping"))
 		return (1);
@@ -55,7 +67,7 @@ int philo_action_sleep(t_philo *philo)
 	return (simulation_over(philo->context));
 }
 
-int philo_action_think(t_philo *philo)
+int	philo_action_think(t_philo *philo)
 {
 	if (print_action(philo, "is thinking"))
 		return (1);

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   context.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:03 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:03 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-int context_clear(t_context *context)
+int	context_clear(t_context *context)
 {
 	int	i;
 
@@ -19,7 +31,7 @@ int context_clear(t_context *context)
 	return (0);
 }
 
-int context_init(t_context *context)
+int	context_init(t_context *context)
 {
 	if (init_table(context))
 		return (1);

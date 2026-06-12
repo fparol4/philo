@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   util.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:02 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:02 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
 int	util_digit(char *v)
 {
-	int i;
+	int	i;
 
 	if (!v[0])
 		return (0);
@@ -35,7 +47,7 @@ int	util_atoi(char *v)
 	return ((int)result);
 }
 
-int util_check_props(t_context *context)
+int	util_check_props(t_context *context)
 {
 	if (context->n_philos < 1)
 		return (-1);
@@ -50,7 +62,7 @@ int util_check_props(t_context *context)
 	return (0);
 }
 
-int util_args(char **argv, t_context *context)
+int	util_args(char **argv, t_context *context)
 {
 	context->n_philos = util_atoi(argv[1]);
 	context->t_die = util_atoi(argv[2]);

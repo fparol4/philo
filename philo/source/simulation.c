@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simulation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fcardozo <fcardozo@student.42.org.br>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/12 19:53:02 by fcardozo         #+#    #+#             */
+/*   Updated: 2026/06/12 19:53:02 by fcardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../headers/philo.h"
 
-int simulation_over(t_context *context)
+int	simulation_over(t_context *context)
 {
 	int	tmp;
 
@@ -17,7 +29,7 @@ static void	simulation_stop(t_context *context)
 	pthread_mutex_unlock(&context->mtx_action);
 }
 
-int simulation_join(t_context *context)
+int	simulation_join(t_context *context)
 {
 	int	i;
 
@@ -30,14 +42,15 @@ int simulation_join(t_context *context)
 	return (0);
 }
 
-int simulation_start(t_context *context)
+int	simulation_start(t_context *context)
 {
 	int	i;
 
 	i = 0;
 	while (i < context->n_philos)
 	{
-		if (pthread_create(&context->philos[i].thread, NULL, philo_routine, &context->philos[i]))
+		if (pthread_create(&context->philos[i].thread, NULL, philo_routine,
+				&context->philos[i]))
 		{
 			simulation_stop(context);
 			while (--i >= 0)
