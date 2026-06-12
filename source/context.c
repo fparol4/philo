@@ -1,3 +1,5 @@
+#include "../headers/philo.h"
+
 int context_clear(t_context *context)
 {
 	int i;
