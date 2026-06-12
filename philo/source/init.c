@@ -56,13 +56,13 @@ int	init_philos(t_context *context)
 		return (1);
 	while (i < context->n_philos)
 	{
-			context->philos[i].id = i + 1;
-			context->philos[i].last_meal = context->t_start;
-			context->philos[i].context = context;
-			init_philo_fork(context, i);
-			if (pthread_mutex_init(&context->philos[i].mtx_state, NULL) != 0)
-				return (1);
-			context->philos_ready++;
+		context->philos[i].id = i + 1;
+		context->philos[i].last_meal = context->t_start;
+		context->philos[i].context = context;
+		init_philo_fork(context, i);
+		if (pthread_mutex_init(&context->philos[i].mtx_state, NULL) != 0)
+			return (1);
+		context->philos_ready++;
 		i++;
 	}
 	return (0);
